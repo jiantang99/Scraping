@@ -1,0 +1,45 @@
+us fed, European Central Bank, Bank Of England , Bank Of Japan 	(4)
+
+FASB, BCBS, CGFS, FSB						(4)
+
+ISITC, ISO							(2)
+
+FINRA, US SECURITIES EXCHANGE COMMISSION, EUROPEAN NETWORK AND INFO SECURITY AGENCY, EUROPEAN BANKING AUTHORITY, PRA, NIST							(6)
+
+1	Central Bank	U.S. Federal Reserve System (Fed)
+2		European Central Bank (ECB)
+3		Bank of England (BOE)
+4		Bank of Japan (BOJ)
+5		Swiss National Bank (SNB)
+6		Bank of Canada (BOC)
+7		Reserve Bank of Australia (RBA)
+8		Reserve Bank of New Zealand (RBNZ)
+9	Standard Setting Board	Financial Accounting Standards Board (FASB)
+10		Basel Committee on Banking Supervision (BCBS)
+11		Committee on the Global Financial System (CGFS)
+12		Committee on Payments and Market Infrastructures (CPMI)
+13		Financial Action Task Force on Money Laundering (FATF)
+14		Financial Stability Board (FSB)
+15		International Association of Deposit Insurers (IADI)
+16		International Association of Insurance Supervisors (IAIS)
+17		International Accounting Standards Board (IASB)
+18		International Auditing and Assurance Standards Board (IAASB)
+19		International Monetary Fund (IMF)
+20		International Organisation of Pension Supervisors (IOPS)
+21		International Organisation of Securities Commissions (IOSCO)
+22		Islamic Financial Services Board (IFSB)
+23		Joint Forum (JF)
+24		Organisation for Economic Cooperation and Development (OECD)
+25		World Bank (WB)
+26	International Organization	International Securities Association for Institutional Trade Communication (ISITC)
+27		International Organization for Standardization (ISO)
+28	Regulatory Body	Financial Industry Regulatory Authority (FINRA)
+29		U.S. Securities and Exchange Commission
+30		European Network and Information Security Agency
+31		European Banking Authority
+32		National Cyber Security Centre
+33		Prudential Regulation Authority
+34		Hong Kong Monetary Authority
+35		National Institute of Standards and Technology 
+36		Cybersecurity & Infrastructure Security Agency
+37		Office of the Comptroller of the Currency (OCC)- US Treasury
