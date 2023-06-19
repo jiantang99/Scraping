@@ -1,6 +1,9 @@
-us fed, European Central Bank, Bank Of England , Bank Of Japan 	(4)
+us fed, Bank Of Japan
+European Central Bank, Bank Of England (Both use javascript)
+(4)
 
-FASB, BCBS, CGFS, FSB						(4)
+FASB (Check which part of website want to scrape)
+BCBS, CGFS, FSB						(4)
 
 ISITC, ISO							(2)
 
