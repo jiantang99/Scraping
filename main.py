@@ -431,6 +431,39 @@ def finra():
     # save_string = current + file_path + "FINRA_updates.xlsx"
     # df.to_excel(save_string, index = False)
 
+def enisa():
+    url = "https://www.enisa.europa.eu/news"
+
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    link_elements = soup.find_all("a", class_="news-latest-link")
+    date_elements = soup.find_all(class_="news-latest-date")
+    title_element = soup.find_all(class_ = "news-latest-title")
+
+    href_list = list()
+    date_list = list()
+    title_list = list()
+
+    # Print the extracted links and dates
+    for link, date, title in zip(link_elements, date_elements,title_element):
+        href = link.get("href")
+        dt = date.text.strip()
+        t = title.text.strip()
+        if year in dt and month in dt:
+            href_list.append(href)
+            date_list.append(dt)
+            title_list.append(t)
+
+    dates.append('ENISA')
+    links.append('ENISA')
+    titles.append('ENISA')
+    for a in title_list:
+        titles.append(a)
+    for b in href_list:
+        links.append(b)
+    for c in date_list:
+        dates.append(c)
+
 def sec():
     url = 'https://www.sec.gov/news/speeches-statements'
     try:
@@ -468,18 +501,19 @@ def sec():
         dates.append(q)
 
 def main():
-    us_fed()
-    boj()
-    ecb()
-    boe()
-    bcbs()
-    cgfs()
-    fsb()
-    isitc()
-    fasb()
-    iso()
-    finra()
-    sec()
+    # us_fed()
+    # boj()
+    # ecb()
+    # boe()
+    # bcbs()
+    # cgfs()
+    # fsb()
+    # isitc()
+    # fasb()
+    # iso()
+    # finra()
+    # sec()
+    enisa()
 
 main()
 print(len(dates))
