@@ -46,7 +46,7 @@ def us_fed():
     titles.append('US FED')
     links.append('US FED')
     dates.append('US FED')
-    
+
     base_url = 'https://www.federalreserve.gov'
 
 
@@ -54,9 +54,16 @@ def us_fed():
         new_link = base_url + a.find('a',href=True)['href']
         links.append(new_link) # Link
         titles.append(a.text.strip()) # Desc
+
+    pattern = r'(\d{1,2}/\d{1,2}/2023)' 
         
     for b in datesBlock:
-        dates.append(b.find('time').text.strip()) # Date
+        d = b.find('time').text.strip()
+        match = re.search(pattern, d)
+        matched_date = match.group(1)
+        month, day, year = map(int, matched_date.split('/'))                # Using regex to filter out date. Since date on website uses numerical date instead of string.
+        if month == 7 and year == 2023:
+                dates.append(matched_date)
 
 
     # d = {'Title': titles_list,'Link':links_list,'Date':dates_list}
