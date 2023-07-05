@@ -277,6 +277,100 @@ def fsb():
         links.append(b.find('a',href=True)['href'])
         dates.append(b.find('span', class_='media-date pull-right').text)
 
+def isitc():
+    url = 'https://isitc.org/news/in-the-news/'
+    try:
+        page = requests.get(url)
+    except:
+        print("Something is wrong with ISITC link.")
+    soup = BeautifulSoup(page.text, "html.parser")
+    blocks = soup.find_all('div', class_='isitc-news-item')
+
+    dates_list = list()
+    links_list = list()
+    titles_list = list()
+
+    for a in blocks:
+        titles_list.append(a.find('h3').text.strip())
+        links_list.append(a.find('h3').find('a',href=True)['href'])
+        
+        if month in a.find('h4').text.strip() and year in a.find('h4').text.strip(): 
+            dates_list.append(a.find('h4').text.strip())
+
+    titles.append('ISITC')
+    dates.append('ISITC')
+    links.append('ISITC')
+    for a in titles_list[0:len(dates_list)]:
+        titles.append(a)
+    for b in links_list[0:len(dates_list)]:
+        links.append(b)
+    for c in dates_list:
+        dates.append(c)
+    
+def fasb():
+    titles_list = list()
+    links_list = list()
+    dates_list = list()
+
+    url = 'https://www.fasb.org/Page/PageContent?PageId=/news-media/inthenews.html'
+
+    try:
+        page = requests.get(url) 
+    except Exception as e:    
+        print('Error with FASB link')
+            
+    soup = BeautifulSoup(page.text, "html.parser")
+    blocks = soup.find('div', class_='year year-2023')
+
+    for a in blocks.find_all('a'):
+        titles_list.append(a.text)
+        links_list.append(a['href'])
+        
+    pattern = r"(January|February|March|April|May|June|July|August|September|October|November|December)\s\d{1,2},\s\d{4}"
+        
+    for b in blocks:
+        if re.search(pattern, b.text, re.MULTILINE) and len(b) > 5 and month in b and year in b:
+            dates_list.append(b)
+
+    dates.append('FASB')
+    links.append('FASB')
+    titles.append('FASB')
+            
+    for a in titles_list[0:len(dates_list)]:
+        titles.append(a)
+    for b in links_list[0:len(dates_list)]:
+        links.append(a)
+    for c in dates_list:
+        dates.append(c)
+
+def iso():
+    url = 'https://www.iso.org/events.html'
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text, "html.parser")
+    blocks = soup.find_all('div', class_='hentry')
+
+    dates_list = list()
+    links_list = list()
+    titles_list = list()
+
+    for a in blocks:
+        date = a.find('span',class_='opacity-75 small').text
+        if month in date and year in date:
+            dates_list.append(date)
+        titles_list.append(a.find('a',href=True).text)
+        links_list.append(a.find('a',href=True)['href'])
+
+    dates.append('ISO')
+    titles.append('ISO')
+    links.append('ISO')
+
+    for a in links_list[0:len(dates_list)]:
+        links.append(a)
+    for b in titles_list[0:len(dates_list)]:
+        titles.append(a)
+    for c in dates_list:
+        dates.append(c)
+
 def main():
     us_fed()
     boj()
@@ -285,6 +379,9 @@ def main():
     bcbs()
     cgfs()
     fsb()
+    isitc()
+    fasb()
+    iso()
 
 main()
 print(len(dates))
@@ -293,4 +390,4 @@ print(len(titles))
 
 d = {'Title':titles, 'Link':links,'Date':dates}
 df = pd.DataFrame(data=d)
-df.to_csv(r'C:\Users\65936\\OneDrive\Desktop\MAS\\{date}.csv'.format(date=todayDate)
+df.to_csv(r'C:\Users\65936\\OneDrive\Desktop\MAS\\{date}.csv'.format(date=todayDate))
