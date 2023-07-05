@@ -28,6 +28,7 @@ monthDict = {	1:'Janauary',
             11:'November',
             12:'December'		}
 
+date1 = str(datetime.now().date)
 month = monthDict[datetime.now().month]
 year = str(datetime.now().year)
 
@@ -276,4 +277,4 @@ print(len(titles))
 
 d = {'Title':titles, 'Link':links,'Date':dates}
 df = pd.DataFrame(data=d)
-df.to_csv(r'C:\Users\65936\\OneDrive\Desktop\MAS\\{mth}.csv'.format(mth=month))
+df.to_csv(r'C:\Users\65936\\OneDrive\Desktop\MAS\\{date}-{mth}.csv'.format(date=date1,mth=month))

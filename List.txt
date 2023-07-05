@@ -17,7 +17,8 @@ FINRA, US SECURITIES EXCHANGE COMMISSION, EUROPEAN NETWORK AND INFO SECURITY AGE
 6		Bank of Canada (BOC)
 7		Reserve Bank of Australia (RBA)
 8		Reserve Bank of New Zealand (RBNZ)
-9	Standard Setting Board	Financial Accounting Standards Board (FASB)
+9	Standard Setting Board	
+Financial Accounting Standards Board (FASB)
 10		Basel Committee on Banking Supervision (BCBS)
 11		Committee on the Global Financial System (CGFS)
 12		Committee on Payments and Market Infrastructures (CPMI)
