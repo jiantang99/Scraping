@@ -28,10 +28,9 @@ monthDict = {	1:'Janauary',
             11:'November',
             12:'December'		}
 
-date1 = str(datetime.now().date)
+todayDate = str(datetime.now().date())
 month = monthDict[datetime.now().month]
 year = str(datetime.now().year)
-
 
 def us_fed():
     url = 'https://www.federalreserve.gov/recentpostings.htm'
@@ -49,11 +48,15 @@ def us_fed():
 
     base_url = 'https://www.federalreserve.gov'
 
+    links_list = list()
+    titles_list = list()
+    dates_list = list()
 
     for a in titlesAndLinks:
         new_link = base_url + a.find('a',href=True)['href']
-        links.append(new_link) # Link
-        titles.append(a.text.strip()) # Desc
+        links_list.append(new_link) # Link
+        titles_list.append(a.text.strip()) # Desc
+
 
     pattern = r'(\d{1,2}/\d{1,2}/2023)' 
         
@@ -63,8 +66,14 @@ def us_fed():
         matched_date = match.group(1)
         month, day, year = map(int, matched_date.split('/'))                # Using regex to filter out date. Since date on website uses numerical date instead of string.
         if month == 7 and year == 2023:
+                dates_list.append(matched_date)
                 dates.append(matched_date)
 
+    for a in links_list[0:len(dates_list)]:
+        links.append(a)
+    for b in titles_list[0:len(dates_list)]:
+        titles.append(b)
+    
 
     # d = {'Title': titles_list,'Link':links_list,'Date':dates_list}
     # df = pd.DataFrame(data=d)
@@ -284,4 +293,4 @@ print(len(titles))
 
 d = {'Title':titles, 'Link':links,'Date':dates}
 df = pd.DataFrame(data=d)
-df.to_csv(r'C:\Users\65936\\OneDrive\Desktop\MAS\\{date}-{mth}.csv'.format(date=date1,mth=month))
+df.to_csv(r'C:\Users\65936\\OneDrive\Desktop\MAS\\{date}-{mth}.csv'.format(date=todayDate,mth=month))
