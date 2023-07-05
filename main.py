@@ -500,20 +500,72 @@ def sec():
     for q in dates_list:
         dates.append(q)
 
+def eba():
+    url = "https://www.eba.europa.eu/all-news-and-press-releases?page="
+    counter = 1
+    track = True
+    href_list = list()
+    date_list = list()
+    title_list = list()
+    base = "https://www.eba.europa.eu"
+
+    # Send a GET request to the website
+    while track:
+        # link to page number
+        track = False
+        concat = url + str(counter)
+        response = requests.get(concat)
+
+        # Create a BeautifulSoup object to parse the HTML content
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        # Find all <a> elements with class="list-group-item"
+        link_elements = soup.find_all("a", class_="list-group-item")
+
+        # Find all <div> elements with class="list-group-item SecondaryInfo"
+        info_elements = soup.find_all("p", class_="list-group-item-text SecondaryInfo")
+        
+        title_elements = soup.find_all("h3", class_ ="list-group-item-heading")
+
+        # Iterate over the extracted elements
+        for link, info,title in zip(link_elements, info_elements,title_elements):
+            href = link.get("href")
+            text = info.text.strip()
+            d = text[:10]
+            date_object = datetime.strptime(d, "%d/%m/%Y")
+            formatted_date = date_object.strftime("%d %B %Y")
+            if year in formatted_date and month in formatted_date:
+                track = True
+                href_list.append(base+href)
+                date_list.append(formatted_date)
+                title_list.append(title.text.strip())
+        counter += 1
+
+    dates.append('EBA')
+    titles.append('EBA')
+    links.append('EBA')
+    for a in title_list:
+        titles.append(a)
+    for b in date_list:
+        dates.append(b)
+    for c in href_list:
+        links.append(c)
+
 def main():
-    # us_fed()
-    # boj()
-    # ecb()
-    # boe()
-    # bcbs()
-    # cgfs()
-    # fsb()
-    # isitc()
-    # fasb()
-    # iso()
-    # finra()
-    # sec()
+    us_fed()
+    boj()
+    ecb()
+    boe()
+    bcbs()
+    cgfs()
+    fsb()
+    isitc()
+    fasb()
+    iso()
+    finra()
+    sec()
     enisa()
+    eba()
 
 main()
 print(len(dates))
