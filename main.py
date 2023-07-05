@@ -293,4 +293,4 @@ print(len(titles))
 
 d = {'Title':titles, 'Link':links,'Date':dates}
 df = pd.DataFrame(data=d)
-df.to_csv(r'C:\Users\65936\\OneDrive\Desktop\MAS\\{date}-{mth}.csv'.format(date=todayDate,mth=month))
+df.to_csv(r'C:\Users\65936\\OneDrive\Desktop\MAS\\{date}.csv'.format(date=todayDate)
