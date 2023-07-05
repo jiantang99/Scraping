@@ -371,6 +371,66 @@ def iso():
     for c in dates_list:
         dates.append(c)
 
+def finra():
+    base = "https://www.finra.org"
+    url = 'https://www.finra.org/rules-guidance/notices'
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+
+    target_blank_links = soup.find_all('a', target='_blank')
+    href_values = [link['href'] for link in target_blank_links]
+
+    datetime_elements = soup.find_all(class_='datetime')
+    datetime_values = [element.get_text() for element in datetime_elements]
+
+
+    td_elements = soup.find_all("td", class_="views-field views-field-field-notice-title-tx")
+
+
+    # Get the current date and time
+    current_datetime = datetime.now()
+    current_month = current_datetime.strftime('%B')
+
+    container = dict()
+    title_list = list()
+
+    #Add into dictionary
+    for href, dt in zip(href_values, datetime_values):
+        if month in dt:
+            string = base + href
+            container[string] = dt
+        
+        
+        
+    for td in td_elements:
+        div = td.find("div")
+        if div is not None:
+            content = div.get_text(strip=True)
+            title_list.append(content)
+            
+    title_list = title_list[:len(container.values())]
+
+    # df = pd.DataFrame( {"Title" : title_list,
+    #                     "Date" : container.values(),
+    #                   "Link" : container.keys() })
+
+    dates.append('FINRA')
+    links.append('FINRA')
+    titles.append('FINRA')
+
+    for a in title_list:
+        titles.append(a)
+    for b in container.values():
+        dates.append(b)
+    for c in container.keys():
+        links.append(c)
+
+    # current = os.getcwd().replace("\\", "/")
+    # file_path = "./"
+    # # Save to Downloads Folder
+    # save_string = current + file_path + "FINRA_updates.xlsx"
+    # df.to_excel(save_string, index = False)
+
 def main():
     us_fed()
     boj()
@@ -382,6 +442,7 @@ def main():
     isitc()
     fasb()
     iso()
+    finra()
 
 main()
 print(len(dates))
