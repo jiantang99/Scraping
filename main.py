@@ -431,6 +431,42 @@ def finra():
     # save_string = current + file_path + "FINRA_updates.xlsx"
     # df.to_excel(save_string, index = False)
 
+def sec():
+    url = 'https://www.sec.gov/news/speeches-statements'
+    try:
+        page = requests.get(url)
+    except:
+        print("Something is wrong with SEC link.")
+    soup = BeautifulSoup(page.text, "html.parser")
+    # blocks = soup.find_all('tr',class_=re.compile(r'speeches-list-page-row\s+(odd|even)'))
+    blocks = soup.find('tbody')
+
+    links_list = list()
+    dates_list = list()
+    titles_list = list()
+
+    dateBlock = blocks.find_all('time',class_='datetime')
+    for a in dateBlock:
+        aa = a.text.strip()
+        if month in aa and year in aa:
+            dates_list.append(aa)
+
+    titlesAndLinks = blocks.find_all('a',href=True)
+    for b in titlesAndLinks:
+        titles_list.append(b.text.strip())
+        links_list.append(b['href'])
+
+    dates.append('SEC')
+    titles.append('SEC')
+    links.append('SEC')
+
+    for i in titles_list[0:len(dates_list)]:
+        titles.append(i)
+    for j in links_list[0:len(dates_list)]:
+        links.append(j)
+    for q in dates_list:
+        dates.append(q)
+
 def main():
     us_fed()
     boj()
@@ -443,6 +479,7 @@ def main():
     fasb()
     iso()
     finra()
+    sec()
 
 main()
 print(len(dates))
