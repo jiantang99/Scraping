@@ -626,6 +626,38 @@ def ncsc():
             links.append(a.find('a',href=True)['href'])
             dates.append(a.find('ul',class_='meta').text)
 
+def pra():
+    url = "https://www.bankofengland.co.uk/news/prudential-regulation"
+
+    # Set up the Selenium driver
+    driver = webdriver.Chrome()
+
+    driver.get(url)
+    driver.implicitly_wait(5)
+    button = driver.find_element(By.XPATH,"//button[contains(@class,'cookie__button btn btn-default btn-neutral')]")
+    button.click()
+    driver.implicitly_wait(5)
+
+    # Get HTML code
+    html = driver.page_source
+
+    soup = BeautifulSoup(html, 'html.parser')
+    div_element = soup.find_all('div', class_='col3')
+    driver.close()
+
+    dates.append('PRA')
+    links.append('PRA')
+    titles.append('PRA')
+
+    baseLink = 'https://www.bankofengland.co.uk/'
+
+    for a in div_element:
+        if a.find('time',class_='release-date') is not None:
+            if 'July' in a.find('time',class_='release-date').text and '2023' in a.find('time',class_='release-date').text:
+                titles.append(a.find('h3',class_='list exclude-navigation').text)
+                fullLink = baseLink + a.find('a',href=True)['href']
+                links.append(fullLink)
+                dates.append(a.find('time',class_='release-date').text)
 
 
 
@@ -645,7 +677,8 @@ def main():
     # sec()
     # enisa()
     # eba()
-    ncsc()
+    # ncsc()
+    pra()
 
 main()
 print(len(dates))
