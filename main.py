@@ -85,6 +85,9 @@ def boj():
     soup = BeautifulSoup(page.text, "html.parser")
     aa = soup.find_all('li', class_='news_list-li')
     combined_list=list()
+
+    baseLink = 'https://www.boj.or.jp'
+
     titles.append('BOJ')
     links.append('BOJ')
     dates.append('BOJ')
@@ -96,7 +99,8 @@ def boj():
         
     for b in combined_list:
         titles.append(b.find('a').text)
-        links.append(b.find('a',href=True)['href'])
+        fullLink = baseLink + b.find('a',href=True)['href']
+        links.append(fullLink)
         dates.append(b.find('time',class_='time').text)
 
 def ecb():
@@ -115,18 +119,20 @@ def ecb():
     div_element = soup.find('div', class_='lazy-load loaded')
     allDates = div_element.find_all('div',class_='date') # All dates
     allTitleBlocks = div_element.find_all('dd') # All title blocks
-    dates_list = list()                                           # Need empty list to extract length of dates with current month and year
-    links_list = list()
-    titles_list = list()
+    driver.quit()
 
-    dates.append('ECB')
-    links.append('ECB')
     titles.append('ECB')
+    links.append('ECB')
+    dates.append('ECB')
+
+    titles_list = list()
+    links_list = list()
+    dates_list = list()
 
     for a in allDates:
         if a.text.find(year) != -1 and a.text.find(month) != -1:
             dates_list.append(a.text)
-            dates.append(a.text)                                  # Dates of current month and year
+            dates.append(a.text)                                  # All dates
 
     preLink = 'https://www.ecb.europa.eu'
             
@@ -137,13 +143,10 @@ def ecb():
             newLink = preLink + titleBlock.find('a', href=True)['href'] 
             links_list.append(newLink)                                 # All links
             
-    links_list = links[0:len(dates_list)]                                   # Slice list to get same length as dates
-    titles_list = titles[0:len(dates_list)]                                 # Indexes of dates, links, and titles match, so simple slicing will work
-
-    for a in links_list:                                                # Append to global list
-        links.append(a)
-    for b in titles_list:
-        titles.append(b)
+    for b in links_list[0:len(dates_list)]:
+        links.append(b)                                   # Slice list to get same length as dates
+    for c in titles_list[0:len(dates_list)]:
+        titles.append(c)                                 # Indexes of dates, links, and titles match, so simple slicing will work
 
 def boe():
     driver = webdriver.Chrome()
@@ -525,6 +528,8 @@ def sec():
     dates_list = list()
     titles_list = list()
 
+    baseLink = 'https://www.sec.gov'
+
     dateBlock = blocks.find_all('time',class_='datetime')
     for a in dateBlock:
         aa = a.text.strip()
@@ -534,7 +539,8 @@ def sec():
     titlesAndLinks = blocks.find_all('a',href=True)
     for b in titlesAndLinks:
         titles_list.append(b.text.strip())
-        links_list.append(b['href'])
+        fullLink = baseLink + b['href']
+        links_list.append(fullLink)
 
     dates.append('SEC')
     titles.append('SEC')
@@ -649,7 +655,7 @@ def pra():
     links.append('PRA')
     titles.append('PRA')
 
-    baseLink = 'https://www.bankofengland.co.uk/'
+    baseLink = 'https://www.bankofengland.co.uk'
 
     for a in div_element:
         if a.find('time',class_='release-date') is not None:
@@ -663,21 +669,21 @@ def pra():
 
 
 def main():
-    # us_fed()
-    # boj()
-    # ecb()
-    # boe()
-    # bcbs()
-    # cgfs()
-    # fsb()
-    # isitc()
-    # fasb()
-    # iso()
-    # finra()
-    # sec()
-    # enisa()
-    # eba()
-    # ncsc()
+    us_fed()
+    boj()
+    ecb()
+    boe()
+    bcbs()
+    cgfs()
+    fsb()
+    isitc()
+    fasb()
+    iso()
+    finra()
+    sec()
+    enisa()
+    eba()
+    ncsc()
     pra()
 
 main()
