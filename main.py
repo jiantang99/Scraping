@@ -213,48 +213,95 @@ def bcbs():
     links.append('BCBS')
     titles.append('BCBS')
 
+    monthDictv2 = {	1:'Jan',                           # Need new dictionary since this website uses short form of months. E.g., July = Jul
+            2:'Feb',
+            3:'Mar',
+            4:'Apr',
+            5:'May',
+            6:'Jun',
+            7:'Jul',
+            8:'Aug',
+            9:'Sep',
+            10:'Oct',
+            11:'Nov',
+            12:'Dec'		}
+    
+    monthv2 = monthDictv2[datetime.now().month]
+
     preLink = 'https://www.bis.org'
                 
     for b in li:
-        titles.append(b.find('div',class_='title').text)
-        newLink = preLink + b.find('a',class_='dark',href=True)['href']
-        links.append(newLink)
-        dates.append(b.find('td',class_='item_date').text)
+        if year in b.find('td',class_='item_date').text and monthv2 in b.find('td',class_='item_date').text:
+            titles.append(b.find('div',class_='title').text)
+            newLink = preLink + b.find('a',class_='dark',href=True)['href']
+            links.append(newLink)
+            dates.append(b.find('td',class_='item_date').text)
 
     # Close the webdriver
     driver.quit()
 
 def cgfs():
     url = 'https://www.bis.org/cgfs_publs/index.htm?m=2569'
+
+    # Set up the Selenium webdriver (make sure you have the appropriate driver installed)
     driver = webdriver.Chrome()  # Use Chrome or any other supported browser driver
+
+    # Open the webpage
     driver.get(url)
+
+    # Retrieve the complete HTML content
     html_content = driver.page_source
 
     li = list()
+    titles_list = list()
+    links_list = list()
+    dates_list = list()
+
+    # Now you can parse the HTML content using BeautifulSoup
     soup = BeautifulSoup(html_content, "html.parser")
-    try:
-        aa = soup.find('tbody').find_all('tr')
-    except:
-        print("No results found for CGFS in this month.")
+    aa = soup.find('tbody').find_all('tr')
 
-    dates.append('CGFS')
-    titles.append('CGFS')
-    links.append('CGFS')
-
-    for a in aa:                                                    # To get publications in 2023    
+    # To get publications in 2023
+    for a in aa:    
         if year in a.text:
                 li.append(a)
+
+    monthDictv2 = {	1:'Jan',                           # Need new dictionary since this website uses short form of months. E.g., July = Jul
+        2:'Feb',
+        3:'Mar',
+        4:'Apr',
+        5:'May',
+        6:'Jun',
+        7:'Jul',
+        8:'Aug',
+        9:'Sep',
+        10:'Oct',
+        11:'Nov',
+        12:'Dec'		}
+    
+    monthv2 = monthDictv2[datetime.now().month]
 
     preLink = 'https://www.bis.org'
                 
     for b in li:
-        titles.append(b.find('div',class_='title').text)
-        newLink = preLink + b.find('a',class_='dark',href=True)['href']
-        links.append(newLink)
-        dates.append(b.find('td',class_='item_date').text)
+        if year in b.find('td',class_='item_date').text and monthv2 in b.find('td',class_='item_date').text:
+            titles_list.append(b.find('div',class_='title').text)
+            newLink = preLink + b.find('a',class_='dark',href=True)['href']
+            links_list.append(newLink)
+            dates_list.append(b.find('td',class_='item_date').text)
 
     # Close the webdriver
     driver.quit()
+
+    dates.append('CGFS')
+    titles.append('CGFS')
+    links.append('CGFS')
+    for a in titles_list:
+        titles.append(a)
+    for b in links_list:
+        links.append(b)
+    for c in dates_list:
+        dates.append(c)
 
 def fsb():
     url = 'https://www.fsb.org/publications/'
@@ -551,21 +598,54 @@ def eba():
     for c in href_list:
         links.append(c)
 
+def ncsc():
+    driver = webdriver.Chrome()
+
+    # Open the URL
+    url = "https://www.ncsc.gov.uk/section/keep-up-to-date/reports-advisories"
+    driver.get(url)
+    driver.implicitly_wait(5)
+    button = driver.find_element(By.XPATH,"//*[text()='Accept optional cookies']")
+    button.click()
+    driver.implicitly_wait(5)
+
+    # Get HTML code
+    html = driver.page_source
+
+    soup = BeautifulSoup(html, 'html.parser')
+    div_element = soup.find_all('div', class_='pcf-article-content-item')
+    driver.close()
+
+    dates.append('NCSC')
+    links.append('NCSC')
+    titles.append('NCSC')
+
+    for a in div_element:
+        if month in a.find('ul',class_='meta').text and year in a.find('ul',class_='meta').text:
+            titles.append(a.find('h4', class_='pcf-results-item__title').text)
+            links.append(a.find('a',href=True)['href'])
+            dates.append(a.find('ul',class_='meta').text)
+
+
+
+
+
 def main():
-    us_fed()
-    boj()
-    ecb()
-    boe()
-    bcbs()
-    cgfs()
-    fsb()
-    isitc()
-    fasb()
-    iso()
-    finra()
-    sec()
-    enisa()
-    eba()
+    # us_fed()
+    # boj()
+    # ecb()
+    # boe()
+    # bcbs()
+    # cgfs()
+    # fsb()
+    # isitc()
+    # fasb()
+    # iso()
+    # finra()
+    # sec()
+    # enisa()
+    # eba()
+    ncsc()
 
 main()
 print(len(dates))
